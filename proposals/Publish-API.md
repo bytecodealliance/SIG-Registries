@@ -11,7 +11,7 @@ This is the "release manifest":
    "entityType": "component",
    "name": "bytecodealliance.org:dog-facts",
    "version": "1.0.0",
-   "contentDigest": "f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2"
+   "contentDigest": {"sha256": "f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2"}
    // ...more fields populated by publisher
 }
 ```
@@ -51,27 +51,27 @@ LENGTH: size of argument in bytes as a 16-bit, unsigned, little-endian int
    "status": "pending",
    // Unpublished releases are transient
    "expiresAt": "2022-04-27T12:34:56Z",
-   // Each URL points to identical content
-   "contentUrls": [],
+   // Each source points to identical content
+   "contentSources": [],
    // Optional: registry-managed storage to upload component content
    "uploadUrl": "https://storage.example.com/abc123",
 }
 ```
 
-## Add release content URL(s)
+## Add release content source(s)
 
 * Direct upload to `uploadUrl` (`application/wasm`):
    `POST https://objects.example.com/abc123`
 * Indirect, by URL:
-   `POST /components/bytecodealliance.org:dog-facts/v1.0.0/content-urls`
+   `POST /components/bytecodealliance.org:dog-facts/v1.0.0/content-sources`
    ```jsonc
-   {"contentUrls": [
-       "https://github.com/bytecodealliance/dog-facts/releases/download/v1.0.0/dog-facts-1.0.0.wasm",
-       "ipfs://x9jrSiRbxkH82quqonfkiLn3/dog-facts-1.0.0.wasm"
+   {"contentSources": [
+       {"url": "https://github.com/bytecodealliance/dog-facts/releases/download/v1.0.0/dog-facts-1.0.0.wasm"},
+       {"url": "ipfs://x9jrSiRbxkH82quqonfkiLn3/dog-facts-1.0.0.wasm"}
    ]}
    ```
    * Allows more complex schemes like signed upload URLs
-   * Different registries may accept different content URLs (transports, hosts)
+   * Different registries may accept different content source types (transports, hosts)
 
 > This list can be modified after publishing.
 
@@ -98,7 +98,7 @@ LENGTH: size of argument in bytes as a 16-bit, unsigned, little-endian int
    "release": { <release manifest> },
    "releaseSignature": "...",
    "creator": "github:bytecodealliance-ci",
-   "contentUrls": ["https://storage.example.com/abc123"],
+   "contentSources": [{"url": "https://storage.example.com/abc123"}],
    // ...more fields populated by registry
 }
 ```
