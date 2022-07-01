@@ -7,11 +7,11 @@ an unambiguous definition of terms frequently used by SIG Registries.
 
 ### Annotations
 
-Annotations have types. For example, "yank" and "takedown" annotation types.
+Annotations are typed metadata added to a package after its creation. For example, "yank" and "takedown" annotation types.
 
 ### Component
 
-A component is defined by the (emerging) W3C Component Model specification which defines a component as a portable binary built from WebAssembly core modules with statically-analyzable, capability-safe, language-agnostic interfaces.
+A component is defined by the (emerging) [W3C WebAssembly Component Model specification](https://github.com/WebAssembly/component-model) which defines a component as a portable binary built from WebAssembly core modules with statically-analyzable, capability-safe, language-agnostic interfaces.
 
 A component package is a type of [package](#package) whose contents are a component.
 
@@ -67,7 +67,7 @@ There isn’t just one registry: there is a single registry architecture which c
 
 ### Signatures
 
-Signatures are a set of signing identities.
+Signatures are cryptographic bindings to signing identities.
 
 ### Yank
 
