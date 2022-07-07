@@ -15,11 +15,9 @@ A component is defined by the (emerging) [W3C WebAssembly Component Model specif
 
 A component package is a type of [package](#package) whose contents are a component.
 
-### Bundle and Bundling
+### Bundled Component and Bundling
 
-A bundle or a component that has been "bundled" is the result of when a [component](#component) has only interface dependencies and can thus run directly on a wasm engine that natively implements those interfaces without any registry access. A bundle function replaces a [component](#component)’s [imports](#imports) with inline copies via local module definitions.
-
-This has also been referred to as producing a composite of a component's DAG of dependencies.
+A "bundled component" is a [component](#component) that only has interface dependencies and can thus run directly on a wasm engine that natively implements those interfaces without requiring any registry access. "Bundling" is an automatic transformation on a [component](#component) that replaces [imports](#imports) of other components (in the registry) with inline copies of those components (fetched from the registry at the time of bundling) to produce a bundled component.
 
 ### Entity
 
@@ -27,19 +25,19 @@ Entity is the name that replaces [package](#package) in most contexts. An entity
 
 ### Exports
 
-Exports are the names of [interfaces](#interfaces) that a component defines, e.g. `wasi:cache`.
+An "export" is a function, value, type, or [interface](#interfaces) that is implemented by a [component](#component) and exposed to the outside world with a given string name and declared type.
 
 ### Imports
 
-Imports are names of [interfaces](#interfaces) that a component depends on, e.g. `wasi:cache`.
+An "import" is a function, value, type, or [interface](#interfaces) that must be given by the outside world to a component with a given string name and matching type in order to use that component.
 
 ### Interface
 
-An interface is a pair of a string and an instance type that can be imported or exported. Interfaces are a component's API surface ([exports](#exports)) as well as the API's that a component ([imports](#imports)).
+An "interface" is a named collection of functions, values, types, and other interfaces that can collectively be [imported](#imports) or [exported](#exports) by a component.  Each member of an interface is described with a name and a type.  A single component can import and/or export the same interface one or more times.
 
 ### Module
 
-A common question is "What is the difference between a component and a module?". A Wasm module is a core Wasm module and compatible with Wasm 1.0 whereas a component adheres to the evolving Component Model specification with support for interfaces definitions (beyond i32's in core Wasm).
+A common question is "What is the difference between a component and a module?". A Wasm module is a core Wasm module and compatible with Wasm 1.0 whereas a component adheres to the evolving Component Model specification with support for interfaces definitions (beyond i32's in core Wasm).  Modules are like `.dll`s in native systems, allowing low-level sharing of pointers to a shared memory but not providing isolation and requiring additional out-of-band information to reuse.  Components are more like microservices that supply an OpenAPI: they encapsulate their low-level state and self-describe their interface in a language-agnostic manner.  In the context of the registry, module packages are useful for factoring low-level runtime code out of components that would otherwise be statically duplicated.
 
 ### Namespace
 
@@ -60,6 +58,10 @@ A profile is a collection of interfaces that are imported and exported by to the
 ### Provenance
 
 Provenance is a record of ownership of a package. The state of a registry is provenantial when it is *internally consistent* and every package release has provenance.
+
+### Publisher
+
+A publisher is a role that interacts with the publisher API, and has the ability to create a new package releases signed by a current maintainer.
 
 ### Registry
 
