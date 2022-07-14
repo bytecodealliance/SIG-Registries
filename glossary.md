@@ -19,10 +19,6 @@ A component package is a type of [package](#package) whose contents are a compon
 
 A "bundled component" is a [component](#component) that only has interface dependencies and can thus run directly on a wasm engine that natively implements those interfaces without requiring any registry access. "Bundling" is an automatic transformation on a [component](#component) that replaces [imports](#imports) of other components (in the registry) with inline copies of those components (fetched from the registry at the time of bundling) to produce a bundled component.
 
-### Entity
-
-Entity is the name that replaces [package](#package) in most contexts. An entity is interchangeable with package.
-
 ### Exports
 
 An "export" is a function, value, type, or [interface](#interfaces) that is implemented by a [component](#component) and exposed to the outside world with a given string name and declared type.
