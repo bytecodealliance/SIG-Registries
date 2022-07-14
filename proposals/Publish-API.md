@@ -1,6 +1,6 @@
 # Publish API
 
-> This API focuses on "component" publishing, but should be generalizable to other "entity types" (e.g. interfaces).
+> This API focuses on "component" publishing, but should be generalizable to other "package types" (e.g. interfaces).
 
 ## Create Unpublished Release
 `POST /releases` (or `/components/bytecodealliance.org:dog-facts`)
@@ -8,7 +8,7 @@
 This is the "release manifest":
 ```jsonc
 {
-   "entityType": "component",
+   "packageType": "component",
    "name": "bytecodealliance.org:dog-facts",
    "version": "1.0.0",
    "contentDigest": {"sha256": "f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2"}
@@ -38,7 +38,7 @@ This is the "release manifest":
 SHA-256: binary output of the FIPS 180-4 SHA256 algorithm
 LENGTH: size of argument in bytes as a 16-bit, unsigned, little-endian int
 ```
-> The exact contents for particular entity types are not fully defined in this proposal, but for components in particular the component Wasm binary entry must be named exactly `component.wasm`.
+> The exact contents for particular package types are not fully defined in this proposal, but for components in particular the component Wasm binary entry must be named exactly `component.wasm`.
 
 ## Unpublished Release 
 `GET /components/bytecodealliance.org:dog-facts/v1.0.0/unpublished`

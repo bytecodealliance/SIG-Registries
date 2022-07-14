@@ -15,7 +15,7 @@ Central facility to store multiple signatures
   - Crypto stuff fits all of their data formats
 
   - The term used in both JWS and SAML is assertions
-    Making assertions about an entity
+    Making assertions about an package
     You can publish some software, I've done QE process on this thing and then provide a stamp of approval
     There are cross-organization
     Intoto - project in CNCF
@@ -156,7 +156,7 @@ If we upload the metadata with the data.
 
 That way the server can always validate whether the publish is correct.
 
-Entity has a particular state, its published, yanked which means it's no longer supplied in queries.
+Package has a particular state, its published, yanked which means it's no longer supplied in queries.
 
 The person with privileges of this kind, took an action to say they don't want this anymore.
 
@@ -171,11 +171,11 @@ Monitoring.
 
 Let's say the registry, even in the failure state, tombstones might still be valid for legal take-down case.
 
-Matrix: we have two states, two actors. We have the actor and the entity owner, and the registry.
+Matrix: we have two states, two actors. We have the actor and the package owner, and the registry.
 
 Another use-case is that I might actually have a prolonged test environment, more complex formulations of my entire solution, I'm not going to actually say this is part of the registry. This is my publish state, in that env I can see people wanting to working against an unvalidated state. The binary is in an S3 bucket. Potentially validatable but only by a user.  What they are trying to do is some developmental implementation.
 
-Entities are immutable. Doing queries against the previous version.
+Packages are immutable. Doing queries against the previous version.
 
 In crates.io, you can publish a release, everything is immutable, if you try to test as a release of the software.
 
