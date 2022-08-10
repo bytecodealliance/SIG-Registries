@@ -20,7 +20,7 @@ A package log is a sequence of typed *entries*. Each entry contains the followin
 
 | Field | Value Type | Description |
 | ----- | ---------- | ----------- |
-| prev | hash(es) or `null` | the previous entry in the log |
+| prev | hash or `null` | the previous entry in the log |
 | version | always "0.1.0" | the registry log protocol version |
 | time | ISO 8601 timestamp | when the entry was created |
 | author | public key | the key of the entry author |
@@ -31,14 +31,14 @@ e.g.
 
 ```json
 {
-    "prev": <hash(es)>,
+    "prev": <hash>,
     "version": "0.1.0",
     "time": "2022-05-11T11:08:00Z",
     "author": <public key>,
     "type": "release",
     "contents": {
         "version": "1.14.0",
-        "digest": <hash(es)>
+        "digest": <hash>
     }
 }
 ```
@@ -60,83 +60,65 @@ Registries should with some frequency publish the payload digest of the log head
 
 With the exception of the Initialize Log entry, which may be issued by any key, entries are only valid if the key which signed them is granted permission for that entry type by the log.
 
-### Initialize Log
+### Initialize Package (`init-package`)
 
 Creates a new package with a specific name and begins the associated log.
 
-#### Fields
-
-* `name` - string
-
-#### Validation
-
-* Must always be the first entry in the log.
-* Requires that no package with that name exists in this registry.
-
-#### Effects
-
-* Registry guarantees exclusive ownership of the package name.
-* Permits the author to perform Assign Role.
+* **Fields**
+  * `name` - string
+* **Validation**
+  * Must always be the first entry in the log.
+  * Requires that no package with that name exists in this registry.
+* **Effects**
+  * Registry guarantees exclusive ownership of the package name.
+  * Permits the author to perform Assign Role.
 
 **Note:** Registries may choose to reject `Initialize Log` entries that do not conform to some registry policy
 (e.g. it could enforce ACME-based domain package namespaces).
 
-### Update Authorization
+### Update Authorization (`update-auth`)
 
 Assigns a role to a key.
 
-#### Fields
+* **Fields**
+  * `key` - public key
+  * `allow` - list of entry type strings
+  * `deny` - list of entry type strings
+* **Validation**
+  * The key was previously authorized for all types in the deny list
+* **Effects**
+  * The key is now able to create entries with the specified allow types
+  * The key is no longer able to create entries with the specified deny types
 
-* `key` - public key
-* `allow` - list of entry type strings
-* `deny` - list of entry type strings
-
-#### Effects
-
-* The key is now able to create entries with the specified allow types
-* The key is no longer able to create entries with the specified deny types
-
-### Release
+### Release (`release`)
 
 Makes a new version of the package available.
 
-#### Fields
+* **Fields**
+  * `version` - a semantic version string
+  * `digest` - content hash
+* **Validation**
+  * Requires that no other Release has had the same version.
+* **Effects**
+  * Creates a new package release.
+  * The package version has state `"released"`
 
-* `version` - a semantic version string
-* `digest` - content hash
-
-#### Validation
-
-* Requires that no other Release has had the same version.
-
-#### Effects
-
-* Creates a new package release.
-* The package version has state `"released"`
-
-### Yank
+### Yank (`yank`)
 
 An assertion by the maintainer that "this release is not fit for use". Does not alter the release, but may cause the release to be excluded from default query results.
 
-#### Fields
-
-* `version` - a semantic version string
-
-#### Validation
-
-* The package version had state`"released"`
-
-#### Effects
-
-* The package version has state `"yanked"`
+* **Fields**
+  * `version` - a semantic version string
+* **Validation**
+  * The package version had state`"released"`
+* **Effects**
+  * The package version has state `"yanked"`
 
 # Open Questions
 
 ## Hashing Scheme
 
 Define the way that payloads/envelopes/etc. are hashed and canonical digests are obtained. Define any mechanisms for identifying and migrating hash algorithms.
-
-One option to increase the difficulty of collision attacks and support the migration of hashing algorithms is to include multiple hashes using different algorithms that refer to the same content in the place of one singular hash. This is similar to the [Content-Digest Header](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-digest-headers#section-2) which allows multiple hashes of the same content.
 
 Define a clear recovery plan for the scenario where a hash is discovered to be weak enough to enable [pre-image attacks](https://en.wikipedia.org/wiki/Preimage_attack).
 
