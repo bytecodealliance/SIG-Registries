@@ -86,7 +86,7 @@ al).
 ### WIT
 
 A WIT package is a binary-encoded representation of a [WIT](https://github.com/WebAssembly/component-model/blob/main/design/mvp/WIT.md) document that may contain
-any number of [interfaces](#interface) and [worlds](#world). Component authoring tooling WIT packages for generating language-specific bindings used when authoring
+any number of [interfaces](#interface) and [worlds](#world). Component authoring tooling uses WIT packages for generating language-specific bindings when authoring
 a component.
 
 ### World
